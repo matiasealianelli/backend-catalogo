@@ -6,10 +6,10 @@ import mongoose from "mongoose";
 import connectDB from "./db.js";
 import { userRoute } from "./src/routes/userRoute.js";
 import { PORT } from "./config.js";
+import { categoryRoute } from "./src/routes/categoryRoute.js"
 
 //Corremos la aplicacion express
 const app = express();
-
 
 //CORS permite recibir solicitudes de origenes cruzados
 app.use(
@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Rutas
 app.use("/api/user", userRoute);
+app.use("/api/category", categoryRoute);
 
 //Con este comando levantamos el servidor
 app.listen(PORT, () => {
