@@ -7,6 +7,7 @@ import connectDB from "./db.js";
 import { userRoute } from "./src/routes/userRoute.js";
 import { PORT } from "./config.js";
 import { categoryRoute } from "./src/routes/categoryRoute.js"
+import { productRoute } from "./src/routes/productRoute.js"
 
 //Corremos la aplicacion express
 const app = express();
@@ -29,8 +30,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Rutas
+
 app.use("/api/user", userRoute);
 app.use("/api/category", categoryRoute);
+app.use("/api/product", productRoute)
 
 //Con este comando levantamos el servidor
 app.listen(PORT, () => {
