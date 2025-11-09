@@ -18,36 +18,6 @@ El objetivo es aplicar los conocimientos adquiridos en **Node.js**, **Express** 
 
 ---
 
-## 🧩 Estructura del Proyecto
-
-```
-proyecto-catalogo-repuestos/
-├── index.js
-├── package.json
-├── .env
-└── src/
-    ├── config/
-    │   └── db.js
-    ├── models/
-    │   ├── userModel.js
-    │   ├── categoryModel.js
-    │   └── productModel.js
-    ├── controllers/
-    │   ├── userController.js
-    │   ├── categoryController.js
-    │   └── productController.js
-    ├── services/
-    │   ├── userService.js
-    │   ├── categoryService.js
-    │   └── productService.js
-    └── routes/
-        ├── userRoute.js
-        ├── categoryRoute.js
-        └── productRoute.js
-```
-
----
-
 ## ⚙️ Instalación y Ejecución
 
 1. **Clonar el repositorio**
@@ -175,6 +145,39 @@ POST /api/product/create
 - Las contraseñas se encriptan automáticamente con **bcrypt** antes de guardarse en la base de datos.
 - El login **no utiliza JWT**, solo valida las credenciales del usuario.
 - La conexión a la base de datos se realiza de forma **local**, en `mongodb://localhost`, utilizando el puerto configurado en `.env`.
+
+---
+
+
+## 🧩 Estructura del Proyecto
+
+```
+proyecto-catalogo-repuestos/
+├── index.js
+├── package.json
+├── .env
+└── src/
+    ├── config/
+    │   └── db.js
+    ├── models/
+    │   ├── userModel.js
+    │   ├── categoryModel.js
+    │   └── productModel.js
+    ├── controllers/
+    │   ├── userController.js
+    │   ├── categoryController.js
+    │   └── productController.js
+    ├── services/
+    │   ├── userService.js
+    │   ├── categoryService.js
+    │   └── productService.js
+    └── routes/
+        ├── userRoute.js
+        ├── categoryRoute.js
+        └── productRoute.js
+```
+
+
 
 ---
 
