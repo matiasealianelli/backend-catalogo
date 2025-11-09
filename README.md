@@ -23,8 +23,7 @@ El objetivo es aplicar los conocimientos adquiridos en **Node.js**, **Express** 
 1. **Clonar el repositorio**
 
    ```bash
-   git clone https://github.com/usuario/catalogo-repuestos.git
-   cd catalogo-repuestos
+   git clone https://github.com/matiasealianelli/backend-catalogo.git
    ```
 
 2. **Instalar dependencias**
@@ -37,8 +36,9 @@ El objetivo es aplicar los conocimientos adquiridos en **Node.js**, **Express** 
    Crear un archivo `.env` en la raíz del proyecto con el siguiente contenido de ejemplo:
 
    ```env
-   PORT=3001
-   MONGO_URI=mongodb://localhost:27017/catalogo-repuestos
+   PORT = 3000
+   MONGODB_URI = mongodb://127.0.0.1:27017
+   DB = db_proyecto_montford
    ```
 
 4. **Ejecutar en modo desarrollo**
