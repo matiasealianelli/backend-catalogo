@@ -5,7 +5,7 @@ const User = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: [true, "Name field is required"],
+      required: [true, "El campo Nombre de usuario es obligatorio"],
       minLength: 3,
       maxLength: 20,
       unique: true,
@@ -14,7 +14,7 @@ const User = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      require: [true, "LastName field is required"],
+      required: [true, "El campo Apellido de usuario es obligatorio"],
       minLength: 3,
       maxLength: 20,
       unique: true,
@@ -23,7 +23,7 @@ const User = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Email field is required"],
+      required: [true, "El campo Email de usuario es obligatorio"],
       maxLength: 50,
       trim: true,
       lowercase: true,
@@ -31,25 +31,37 @@ const User = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password invalided"],
+      required: [true, "La contraseña es invalida"],
     },
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
-User.pre("save", function (next) {
-  bcrypt
-    .genSalt(10)
-    .then((salts) => {
-      bcrypt
-        .hash(this.password, salts)
-        .then((hash) => {
-          this.password = hash;
-          next();
-        })
-        .catch((error) => next(error));
-    })
-    .catch((error) => next(error));
+User.pre("save", async function (next) {
+  // bcrypt
+  //   .genSalt(10)
+  //   .then((salts) => {
+  //     bcrypt
+  //       .hash(this.password, salts)
+  //       .then((hash) => {
+  //         this.password = hash;
+  //         next();
+  //       })
+  //       .catch((error) => next(error));
+  //   })
+  //   .catch((error) => next(error));
+  
+  
+  
+  
+    try {
+    if (!this.isModified("password")) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default mongoose.model("user", User);

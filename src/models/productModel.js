@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: [true, "Name product field is required"],
+      required: [true, "El campo Nombre del producto es obligatorio"],
       minLength: 3,
       maxLength: 50,
       unique: true,
@@ -13,21 +13,19 @@ const productSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      require: [true, "Description product field is required"],
-      maxLength: 400,
+      required: [true, "El campo Descripcion es obligatorio"],
+      maxLength: 500,
       lowercase: true,
       trim: true,
     },
     stock: {
       type: Number,
-      require: [true, "Stock product field is required"],
-      lowercase: true,
-      trim: true,
+      min: 0
     },
-    category: {
+    categories: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
-      required: [true, "Category is required"],
+      required: [true, "La categoria es requerida"],
     },
   },
   {

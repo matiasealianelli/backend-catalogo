@@ -6,7 +6,7 @@ export const createCategoryService = async (data) => {
   const exist = await Category.findOne({ name: data.name });
   if (exist) {
     const error = new Error(
-      `Category ${data.name} already exist, choose another name`
+      `La categoria ${data.name} ya existe, elegi un nombre distinto`
     );
     error.statusCode = 409;
     throw error;
@@ -21,7 +21,7 @@ export const createCategoryService = async (data) => {
 export const deleteCategoryService = async (categoryId) => {
   const exist = await Category.findById({ _id: categoryId });
   if (!exist) {
-    const error = new Error(`Category with ${categoryId} doesn't exist`);
+    const error = new Error(`La categoria ${categoryId}, no existe`);
     error.statusCode = 400;
     throw error;
   }
@@ -34,7 +34,7 @@ export const deleteCategoryService = async (categoryId) => {
 export const updateCategoryService = async (categoryId, data) => {
   const exist = await Category.findById({ _id: categoryId });
   if (!exist) {
-    const error = new Error(`Category with ${categoryId} doesn't exist`);
+    const error = new Error(`La categoria ${categoryId}, no existe`);
     error.statusCode = 400;
     throw error;
   }
@@ -46,13 +46,12 @@ export const updateCategoryService = async (categoryId, data) => {
 
 //Obtenemos todos las categorias
 
-export const getCategoriesService = async () => {
-  const categories = await Category.find();
-
-  if (categories.length === 0) {
-    const error = new Error("There are no categories");
+export const getCategoryService = async () => {
+  const category = await Category.find().populate("categories");
+  if (category.length === 0) {
+    const error = new Error("Aun no hay categorias, agregue una al menos");
     error.statusCode = 204;
     throw error;
   }
-  return categories;
+  return category;
 };

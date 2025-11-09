@@ -1,19 +1,21 @@
 import User from "../models/userModel.js";
-
+import bcrypt from "bcrypt";
 
 //Crea un nuevo usuario
 export const createUserService = async (userData) => {
   const userExists = await User.findOne({ email: userData.email });
 
   if (userExists) {
-    throw new Error("User with this email already exists");
+    throw new Error(
+      `Ya existe un usuario con el email ${userData.email}, crealo con un email distinto`
+    );
   }
 
   const newUser = new User(userData);
 
   await newUser.save();
 
-  return { message: "User created", user: newUser };
+  return { message: "Usuario creado", user: newUser };
 };
 
 //Trae todos los usuarios disponibles
@@ -22,7 +24,7 @@ export const getUserService = async () => {
   const users = await User.find();
 
   if (users.length === 0) {
-    const error = new Error("There are no users");
+    const error = new Error("No hay usuarios disponibles");
     error.statusCode = 204;
     throw error;
   }
@@ -37,7 +39,7 @@ export const getUserByIdService = async (userId) => {
   // Valida si no existe el usuario
 
   if (!user) {
-    const error = new Error(`There is no user with ${userId} id`);
+    const error = new Error(`No existe ningun usuario con el id ${userId}`);
     error.statusCode = 204;
     throw error;
   }
@@ -50,7 +52,7 @@ export const updateUserService = async (userId, updateData) => {
   const userExists = await User.findOne({ _id: userId });
 
   if (!userExists) {
-    const error = new Error("User doesn't exist");
+    const error = new Error(`No existe ningun usuario con el id ${userId}`);
     error.statusCode = 404;
     throw error;
   }
@@ -65,18 +67,45 @@ export const updateUserService = async (userId, updateData) => {
 //Elimina al usuario
 
 export const deleteUserService = async (userId) => {
-
   //Valida si existe el usuario que se quiere eliminar
-  
+
   const userExists = await User.findOne({ _id: userId });
 
   if (!userExists) {
-    const error = new Error("User doesn't exist");
+    const error = new Error(`No existe ningun usuario con el id ${userId}`);
     error.statusCode = 404;
     throw error;
   }
 
-    await User.findByIdAndDelete({ _id: userId})
+  const userDeleted = await User.findByIdAndDelete({ _id: userId });
 
-    return { message: "User deleted successfully" }
+  return { message: "Usuario eliminado exitosamente", message: userDeleted };
+};
+
+//Login de usuario
+
+export const loginUserService = async (email, password) => {
+  // Buscar usuario por email
+  const user = await User.findOne({ email: email.toLowerCase() });
+
+  if (!user) {
+    const error = new Error("Usuario no encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Comparar contraseña
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    const error = new Error("Credenciales inválidas");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  return {
+    message: "Login exitoso",
+    user: { _id: user.id, name: user.name, email: user.email },
+  };
 };

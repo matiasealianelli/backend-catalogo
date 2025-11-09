@@ -1,4 +1,3 @@
-import productModel from "../models/productModel.js";
 import {
   createProductService,
   getProductsService,
@@ -12,10 +11,7 @@ export const createProduct = async (req, res) => {
     const productCreated = await createProductService(data);
     return res
       .status(201)
-      .json(
-        { message: "Product created successfully" },
-        { data: productCreated }
-      );
+      .json({ message: "Repuesto creado exitosamente", data: productCreated });
   } catch (error) {
     if (error.statusCode === 409) {
       return res.status(error.statusCode).json({ error: error.message });
@@ -70,7 +66,7 @@ export const deleteProduct = async (req, res) => {
       });
     }
     return res
-      .statusCode(500)
+      .status(500)
       .json({ message: "Internal server error", error: error.message });
   }
 };
